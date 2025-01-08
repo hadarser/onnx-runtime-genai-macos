@@ -56,5 +56,9 @@ curl -L https://github.com/microsoft/onnxruntime/releases/download/v1.20.1/onnxr
 tar -xvzf onnxruntime-osx-arm64-1.20.1.tgz
 mv onnxruntime-osx-arm64-1.20.1 ort
 python build.py --config Release
+```
+
+And install the wheel that was created in the previous step (name might differ based on a few factors):
+```bash
 pip install build/macOS/Release/wheel/onnxruntime_genai-0.3.0-cp312-cp312-macosx_15_0_arm64.wh
 ```
