@@ -3,12 +3,10 @@
 This repository is dedicated to running ONNX Runtime with GenAI using Apple Silicon hardware optimization. It aims to provide a learning platform for working with ONNX Runtime.
 
 ### What is ONNX Runtime?
-
-ONNX Runtime is a high-performance inference engine for Open Neural Network Exchange (ONNX) models. It is designed to be cross-platform, providing efficient and scalable execution of machine learning models.
+ONNX Runtime is a high-performance inference engine designed to execute machine learning models in the ONNX (Open Neural Network Exchange) format. It provides a flexible and efficient way to run models on various hardware accelerators.
 
 ### What is ONNX Runtime GenAI?
-
-ONNX Runtime GenAI is an extension of ONNX Runtime that focuses on generative AI models. It leverages the capabilities of ONNX Runtime to efficiently run generative AI workloads.
+ONNX Runtime GenAI extends ONNX Runtime to support Generative AI workloads. It simplifies running large language models and other generative models by leveraging ONNX Runtime’s optimized infrastructure.
 
 ### Purpose
 
@@ -57,9 +55,6 @@ pip install --pre onnxruntime-genai
 curl -L https://github.com/microsoft/onnxruntime/releases/download/v1.20.1/onnxruntime-osx-arm64-1.20.1.tgz -o onnxruntime-osx-arm64-1.20.1.tgz
 tar -xvzf onnxruntime-osx-arm64-1.20.1.tgz
 mv onnxruntime-osx-arm64-1.20.1 ort
-python build.py --config Release
-# sh build.sh --build_dir=build/macOS --config=RelWithDebInfo
-# OR
 python build.py --config Release
 pip install build/macOS/Release/wheel/onnxruntime_genai-0.3.0-cp312-cp312-macosx_15_0_arm64.wh
 ```
