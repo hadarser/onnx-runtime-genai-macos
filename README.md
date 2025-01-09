@@ -60,11 +60,6 @@ Install the wheel created in the previous step (the name might differ based on v
 pip install build/macOS/Release/wheel/onnxruntime_genai-0.3.0-cp312-cp312-macosx_15_0_arm64.wh
 ```
 
-## Install other dependencies
-```bash
-pip install -r requirements.txt
-```
-
 ## Download a pre-trained model
 To keep things simple, we will use a pre-trained ONNX model from Hugging Face. For example, `Phi-3.5-mini-instruct-onnx` from [this repository](https://huggingface.co/microsoft/Phi-3.5-mini-instruct-onnx). To download it using the CLI:
 ```bash
