@@ -8,7 +8,6 @@ print(f"Loading model from {model_path}")
 model = engine.Model(str(model_path))
 print(f"Model loaded in {time.time() - start:.2f} seconds")
 
-
 model = engine.Model(f"{model_path}")
 tokenizer = engine.Tokenizer(model)
 tokenizer_stream = tokenizer.create_stream()
@@ -22,16 +21,22 @@ chat_tpl = "<|user|>\n{input}<|end|>\n<|assistant|>"
 
 print("Let's chat!\n")
 
+# Initialize message history
+message_history = []
+
 # Chat loop. Exit with Ctrl+C
 try:
     while True:
         text = input("> User: ")
         if not text:
-            print("Please, answer something")
+            print("Please, ask something")
             continue
 
-        # Populate the chat template with user input
-        prompt = f"{chat_tpl.format(input=text)}"
+        # Add user input to message history
+        message_history.append(f"<|user|>\n{text}<|end|>")
+
+        # Create the prompt from the message history
+        prompt = "\n".join(message_history) + "\n<|assistant|>"
 
         input_tokens = tokenizer.encode(prompt)
 
@@ -44,12 +49,18 @@ try:
 
         try:
             # Loop to generate and display answer tokens
+            assistant_response = ""
             while not generator.is_done():
                 generator.compute_logits()
                 generator.generate_next_token()
                 next_token = generator.get_next_tokens()[0]
-                print(tokenizer_stream.decode(next_token), end="", flush=True)
+                decoded_token = tokenizer_stream.decode(next_token)
+                assistant_response += decoded_token
+                print(decoded_token, end="", flush=True)
             print("\n")
+
+            # Add assistant response to message history
+            message_history.append(f"<|assistant|>\n{assistant_response}<|end|>")
         except KeyboardInterrupt:
             print("\nCtrl+C pressed, stopping chat inference")
 except KeyboardInterrupt:
