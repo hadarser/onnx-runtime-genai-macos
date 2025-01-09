@@ -1,5 +1,26 @@
+from abc import ABC
 import time
 import onnxruntime_genai as engine
+
+
+class Tokens(ABC):
+    SYSTEM = None
+    USER = None
+    ASSISTANT = None
+    END = None
+
+
+class PhiTokens(Tokens):
+    SYSTEM = "<|system|>"
+    USER = "<|user|>"
+    ASSISTANT = "<|assistant|>"
+    END = "<|end|>"
+
+
+class LlamaTokens(Tokens):
+    def __init__(self) -> None:
+        super().__init__()
+        raise NotImplementedError("Llama tokens not implemented yet")
 
 
 model_path = "phi3.5/cpu_and_mobile/cpu-int4-awq-block-128-acc-level-4"
@@ -11,13 +32,11 @@ print(f"Model loaded in {time.time() - start:.2f} seconds")
 model = engine.Model(f"{model_path}")
 tokenizer = engine.Tokenizer(model)
 tokenizer_stream = tokenizer.create_stream()
+tokens = PhiTokens()
 
 # Set the maximum number of tokens to generate
 # The full example includes additional parameters for more complex configurations
 search_options = {"max_length": 2048}
-
-# Template for formatting prompt messages in the script
-chat_tpl = "<|user|>\n{input}<|end|>\n<|assistant|>"
 
 print("Let's chat!\n")
 
@@ -33,10 +52,10 @@ try:
             continue
 
         # Add user input to message history
-        message_history.append(f"<|user|>\n{text}<|end|>")
+        message_history.append(f"{tokens.USER}\n{text}{tokens.END}")
 
         # Create the prompt from the message history
-        prompt = "\n".join(message_history) + "\n<|assistant|>"
+        prompt = "\n".join(message_history) + f"\n{tokens.SYSTEM}"
 
         input_tokens = tokenizer.encode(prompt)
 
@@ -60,12 +79,12 @@ try:
             print("\n")
 
             # Add assistant response to message history
-            message_history.append(f"<|assistant|>\n{assistant_response}<|end|>")
+            message_history.append(f"{tokens.ASSISTANT}\n{assistant_response}{tokens.END}")
         except KeyboardInterrupt:
             print("\nCtrl+C pressed, stopping chat inference")
 except KeyboardInterrupt:
     pass
 
+# Clean up
 if "generator" in locals():
-    # Delete the generator
     del generator
