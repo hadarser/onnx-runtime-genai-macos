@@ -9,16 +9,16 @@ model = engine.Model(str(model_path))
 print(f"Model loaded in {time.time() - start:.2f} seconds")
 
 
-model = engine.Model(f'{model_path}')
+model = engine.Model(f"{model_path}")
 tokenizer = engine.Tokenizer(model)
 tokenizer_stream = tokenizer.create_stream()
 
 # Set the maximum number of tokens to generate
 # The full example includes additional parameters for more complex configurations
-search_options = {'max_length': 2048}
+search_options = {"max_length": 2048}
 
 # Template for formatting prompt messages in the script
-chat_tpl = '<|user|>\n{input}<|end|>\n<|assistant|>'
+chat_tpl = "<|user|>\n{input}<|end|>\n<|assistant|>"
 
 print("Let's chat!\n")
 
@@ -31,7 +31,7 @@ try:
             continue
 
         # Populate the chat template with user input
-        prompt = f'{chat_tpl.format(input=text)}'
+        prompt = f"{chat_tpl.format(input=text)}"
 
         input_tokens = tokenizer.encode(prompt)
 
@@ -40,7 +40,7 @@ try:
         gen_params.input_ids = input_tokens
         generator = engine.Generator(model, gen_params)
 
-        print("\n> Assistant: ", end='', flush=True)
+        print("\n> Assistant: ", end="", flush=True)
 
         try:
             # Loop to generate and display answer tokens
@@ -48,8 +48,8 @@ try:
                 generator.compute_logits()
                 generator.generate_next_token()
                 next_token = generator.get_next_tokens()[0]
-                print(tokenizer_stream.decode(next_token), end='', flush=True)
-            print('\n')
+                print(tokenizer_stream.decode(next_token), end="", flush=True)
+            print("\n")
         except KeyboardInterrupt:
             print("\nCtrl+C pressed, stopping chat inference")
 except KeyboardInterrupt:
