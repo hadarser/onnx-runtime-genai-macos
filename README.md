@@ -70,8 +70,7 @@ huggingface-cli download microsoft/Phi-3.5-mini-instruct-onnx --local-dir phi3.5
 
 ## Usage:
 ```bash
-python main.py
-(.venv) (base) ➜  onnx-runtime-genai-macos git:(main) ✗ python main.py
+(.venv) ➜  onnx-runtime-genai-macos git:(main) ✗ python main.py
 Loading model from phi3.5/cpu_and_mobile/cpu-int4-awq-block-128-acc-level-4
 Model loaded in 2.46 seconds
 Let's chat!
